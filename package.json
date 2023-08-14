@@ -3,10 +3,10 @@
   "publisher": "mangrimen",
   "displayName": "MonoGame Content Builder (Editor)",
   "description": "Edit MonoGame Content Builder files in VSCode",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MangriMen/mgcb-editor-vscode.git"
+    "url": "https://github.com/MangriMen/mgcb-vscode.git"
   },
   "icon": "assets/images/icon.png",
   "engines": {
