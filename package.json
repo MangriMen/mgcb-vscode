@@ -1,97 +1,116 @@
 {
-	"name": "mgcb-vscode",
-	"publisher": "mgcb-vscode",
-	"displayName": "MonoGame Content Builder",
-	"description": "Edit MonoGame Content Builder files in VSCode",
-	"version": "0.0.4",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/mihnea-s/mgcb-vscode.git"
-	},
-	"icon": "media/icon.png",
-	"engines": {
-		"vscode": "^1.62.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"workspaceContains:**/*.mgcb",
-		"onCommand:_mgcb.openInExternalEditor"
-	],
-	"main": "./extension.js",
-	"contributes": {
-		"configuration": {
-			"properties": {
-				"mgcb.executablePath": {
-					"type": "string",
-					"default": "mgcb-editor",
-					"description": "MGCB editor executable path."
-				}
-			}
-		},
-		"commands": [
-			{
-				"command": "_mgcb.openInExternalEditor",
-				"title": "Open in external editor",
-				"icon": {
-					"dark": "./media/button-dark.svg",
-					"light": "./media/button-light.svg"
-				}
-			}
-		],
-		"menus": {
-			"commandPalette": [
-				{
-					"command": "_mgcb.openInExternalEditor",
-					"when": "false"
-				}
-			],
-			"editor/context": [
-				{
-					"command": "_mgcb.openInExternalEditor",
-					"when": "resourceExtname == .mgcb",
-					"group": "navigation"
-				}
-			],
-			"editor/title": [
-				{
-					"command": "_mgcb.openInExternalEditor",
-					"when": "resourceExtname == .mgcb",
-					"group": "navigation"
-				}
-			]
-		},
-		"languages": [
-			{
-				"id": "mgcb",
-				"aliases": [
-					"MonoGame Content Builder"
-				],
-				"extensions": [
-					".mgcb"
-				],
-				"configuration": "./language-configuration.json"
-			}
-		],
-		"grammars": [
-			{
-				"language": "mgcb",
-				"scopeName": "source.mgcb",
-				"path": "./language-syntax.json"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "yarn run compile",
-		"compile": "tsc extension.ts"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.1.1",
-		"@types/node": "^10.12.21",
-		"@types/vscode": "^1.62.0",
-		"glob": "^7.1.4",
-		"tslint": "^5.12.1",
-		"typescript": "^3.3.1"
-	}
+  "name": "mgcb-editor",
+  "publisher": "mgcb-editor-vscode",
+  "displayName": "MonoGame Content Builder",
+  "description": "Edit MonoGame Content Builder files in VSCode",
+  "version": "0.0.5",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MangriMen/mgcb-editor-vscode.git"
+  },
+  "icon": "assets/images/icon.png",
+  "engines": {
+    "vscode": "^1.81.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "workspaceContains:**/*.mgcb"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "properties": {
+        "mgcb.executablePath": {
+          "type": "string",
+          "default": null,
+          "description": "MGCB editor executable path."
+        },
+        "mgcb.showContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to display options in the context menu."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "mgcb.openInMgcbEditor",
+        "title": "Open in MGCB Editor",
+        "icon": {
+          "dark": "assets/images/button-dark.svg",
+          "light": "assets/images/button-light.svg"
+        }
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "mgcb.openInMgcbEditor",
+          "when": "false"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "mgcb.openInMgcbEditor",
+          "when": "mgcb.showContextMenu && resourceLangId == mgcb",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "mgcb.openInMgcbEditor",
+          "when": "resourceLangId == mgcb",
+          "group": "navigation"
+        }
+      ]
+    },
+    "languages": [
+      {
+        "id": "mgcb",
+        "aliases": [
+          "MonoGame Content Builder"
+        ],
+        "extensions": [
+          ".mgcb"
+        ],
+        "configuration": "assets/configs/language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "mgcb",
+        "scopeName": "source.mgcb",
+        "path": "assets/configs/language-syntax.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "yarn run compile-tests && pnpm run compile && pnpm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.81.0",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "20.2.5",
+    "@typescript-eslint/eslint-plugin": "^5.59.8",
+    "@typescript-eslint/parser": "^5.59.8",
+    "eslint": "^8.41.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^5.1.3",
+    "ts-loader": "^9.4.3",
+    "webpack": "^5.85.0",
+    "webpack-cli": "^5.1.1",
+    "@vscode/test-electron": "^2.3.2"
+  }
 }
