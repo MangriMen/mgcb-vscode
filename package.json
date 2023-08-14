@@ -1,7 +1,7 @@
 {
   "name": "mgcb-editor",
-  "publisher": "mgcb-editor-vscode",
-  "displayName": "MonoGame Content Builder",
+  "publisher": "mangrimen",
+  "displayName": "MonoGame Content Builder (Editor)",
   "description": "Edit MonoGame Content Builder files in VSCode",
   "version": "0.0.5",
   "repository": {
